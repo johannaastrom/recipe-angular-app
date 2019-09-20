@@ -1,0 +1,9 @@
+p { 
+    color: red;
+    font-variant: small-caps;
+    font-size: larger;
+}
+
+.white-text {
+    color: white;
+}
