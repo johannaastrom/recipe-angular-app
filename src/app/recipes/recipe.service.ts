@@ -6,9 +6,10 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class RecipeService {
+    recipesChanged = new Subject<Recipe[]>();
 
     private recipes: Recipe[] = [
-        new Recipe('Small stuff', 'A description of the test recipe', 
+        new Recipe('Small stuff', 'A long descr of the test recipe that contains more than 100 characters & is going to get cut off here and everything after will be gone in the preview but will be shown in the detail view.', 
         'https://parade.com/wp-content/uploads/2017/12/efingereditedCheesyDijonSausageCups003-677x1024-1.jpg',
         [
             new Ingredient('meat', 1),
@@ -30,6 +31,21 @@ export class RecipeService {
 
     getRecipe(index: number) {
         return this.recipes[index];
+    }
+
+    addRecipe(recipe: Recipe) {
+        this.recipes.push(recipe);
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
+    updateRecipe(index: number, newRecipe: Recipe) {
+        this.recipes[index] = newRecipe;
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
+    deleteRecipe(index: number) {
+        this.recipes.splice(index, 1);
+        this.recipesChanged.next(this.recipes.slice());
     }
 
     addIngredientsToShoppingList(ingredients: Ingredient[]) {
